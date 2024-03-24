@@ -5,6 +5,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import static model.BaseballNumberGenerator.BASEBALL_DIGIT_LENGTH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
@@ -28,5 +29,15 @@ class GameTest {
             .isThrownBy(() -> {
                 boolean gameStatus = game.gameSetting(input);
             }).withMessage("[ERROR] 잘못된 게임 코드 값입니다. " + GameSettingStatus.getAllStatusNameCode());
+    }
+
+    @ParameterizedTest
+    @DisplayName("checkInputValidation 에 허용되지 않는 값을 넣으면 ERROR 및 안내 메세지 출력 여부를 검사한다.")
+    @ValueSource(strings = {"1", "13", "4143", "값을 넣어볼까?", "", "0"})
+    void isCheckInputValidation_ShouldThrowIllegalArgumentExceptionWithWrongInput(String input) {
+        assertThatExceptionOfType(IllegalArgumentException.class)
+            .isThrownBy(() -> {
+                game.checkInputValidation(input);
+            }).withMessage("[ERROR] %d 자리 숫자로 입력해야 합니다.", BASEBALL_DIGIT_LENGTH);
     }
 }
