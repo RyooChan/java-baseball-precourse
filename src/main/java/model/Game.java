@@ -1,6 +1,8 @@
 package model;
 
 import static java.lang.Integer.*;
+import static java.lang.String.*;
+import static model.BaseballNumberGenerator.BASEBALL_DIGIT_LENGTH;
 import static model.GameSettingStatus.*;
 
 public class Game {
@@ -34,5 +36,12 @@ public class Game {
         }
 
         return true;
+    }
+
+    public void checkInputValidation(String input) {
+        if (input.length() != BASEBALL_DIGIT_LENGTH) {
+            throw new IllegalArgumentException(format("[ERROR] %d 자리 숫자로 입력해야 합니다."
+                , BASEBALL_DIGIT_LENGTH));
+        }
     }
 }
